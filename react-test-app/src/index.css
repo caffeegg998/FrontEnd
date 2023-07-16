@@ -7,7 +7,7 @@
     body{
         @apply font-barlow text-primary;
     }
-    .h1 {
+    h1 {
         @apply text-5xl font-bold;
     }
     h3 {
