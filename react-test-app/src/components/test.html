@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script type="module">
+        import toolkit from "https://cdn.jsdelivr.net/npm/@reduxjs/toolkit@1.9.5/+esm";
+        import axios from "https://cdn.jsdelivr.net/npm/axios";
+
+        class Http {
+            /**
+             * @type {import('axios').AxiosInstance}
+             */
+            instance;
+            constructor() {
+                this.instance = axios.create({
+                    baseURL: 'http://localhost:8082/api/',
+                    timeout: 10000,
+                });
+            }
+        }
+        const http = new Http().instance;
+        console.log(http())
+        export const getBookList = toolkit.createAsyncThunk('book/list-book', async (_, thunkAPI) => {
+            try {
+                // Gọi API để lấy danh sách sách từ server (Ví dụ: sử dụng Axios)
+                const response = await http.get(Book, {
+                    signal: thunkAPI.signal
+                });
+
+                // Trả về dữ liệu từ API
+                console.log(response.data)
+                return response.data;
+            } catch (error) {
+                // Nếu xảy ra lỗi trong quá trình gọi API hoặc xử lý dữ liệu, hãy throw lỗi
+                throw new Error('Error fetching book list: ' + error.message);
+            }
+            console.log(getBookList())
+        });
+    </script>
+
+</body>
+</html>

@@ -4,8 +4,6 @@ import  Sing2 from '../../assets/sing_2.jpg'
 import  SpiderMAn from '../../assets/spider_man.jpg'
 import  TDK from '../../assets/the_dark_knight.jpg'
 import  TDKRises from '../../assets/the_dark_knight_rises.jpg'
-
-
 export const movieData = [
     {src: BatmanBegins, title: 'Batman Begins', main: 'Chistian Bale', runtime: '120m'},
     {src: Dune, title: 'Dune', main: 'Timothée Chalamet', runtime: '120m'},

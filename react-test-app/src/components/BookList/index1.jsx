@@ -1,7 +1,7 @@
 import {movieData} from "./movieData.js";
 import Moviecard from "./Moviecard.jsx";
 
-const Index = () => {
+const Index1 = () => {
     return (
         <>
             <h3 className='border-b border-primary mt-12 mb-6 pb-4'>Trending</h3>
@@ -18,4 +18,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default Index1;
