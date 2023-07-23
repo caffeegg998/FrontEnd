@@ -3,18 +3,24 @@
 
 import {current} from "immer";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-
-import Book from "../types/bookcard.type.js";
 // import axios from "axios";
 import http from "../utils/http.js";
 import initialBookList from "../types/bookcard.type.js";
 
+// const initialState = {
+//     bookList: initialBookList,
+//
+// }
 const initialState = {
-    bookList: Book,
+    bookList: {
+        data: initialBookList,
+        msg: "Mặc định",
+
+    },
     editingBook: null,
     loading: false,
     currentRequestId: undefined
-}
+};
 
 export const getBookList = createAsyncThunk('book/list-book', async (_,thunkApi)=> {
     try {
@@ -32,44 +38,54 @@ export const getBookList = createAsyncThunk('book/list-book', async (_,thunkApi)
         throw new Error('Error fetching book list: ' + error.message);
     }
 });
+
+export const addBook = createAsyncThunk('blog/addBook', async (formdata, thunkAPI) => {
+    try {
+        const response = await http.post('book/add-book-file', formdata, {
+            signal: thunkAPI.signal,
+            headers: {
+                'Content-Type': 'multipart/form-data', // Định dạng là form data
+            },
+        })
+        return response.data
+    } catch (error) {
+        if (error.name === 'AxiosError' && error.response.status === 500) {
+            return thunkAPI.rejectWithValue(error.response.data)
+        }
+        throw error
+    }
+})
 // console.log("get listbook:" + getBookList())
 
 const bookSlice = createSlice({
     name: 'book',
     initialState,
     reducers: {
-
+        startEditingPost: (state, action) => {
+            const postId = action.payload
+            const foundPost = state.postList.find((post) => post.id === postId) || null
+            state.editingPost = foundPost
+        },
     },
     extraReducers(builder) {
         builder
-            .addCase(getBookList.pending,(state) => {
-                state.loading = true;
-                state.error= null;
-            })
+            // .addCase(getBookList.pending,(state) => {
+            //     state.loading = true;
+            //     state.error= null;
+            // })
             .addCase(getBookList.fulfilled,(state, action) => {
                 state.loading = false;
                 state.bookList = action.payload
             })
-            .addCase(getBookList.rejected,(state,action)=> {
-                state.loading = false;
-                state.error = action.error.message;
+            .addCase(addBook.fulfilled, (state, action) => {
+                state.bookList.push(action.payload)
             })
-            // .addMatcher<PendingAction>(
-            //     (action) => action.type.endsWith('/pending'),
-            //     (state, action) => {
-            //         state.loading = true
-            //         state.currentRequestId = action.meta.requestId
-            //     }
-            // )
-            // .addMatcher<RejectedAction | FulfilledAction>(
-            //     (action) => action.type.endsWith('/rejected') || action.type.endsWith('/fulfilled'),
-            //     (state, action) => {
-            //         if (state.loading && state.currentRequestId === action.meta.requestId) {
-            //             state.loading = false
-            //             state.currentRequestId = undefined
-            //         }
-            //     }
-            // )
+            // .addCase(getBookList.rejected,(state,action)=> {
+            //     state.loading = false;
+            //     state.error = action.error.message;
+            // })
+
+
             .addDefaultCase((state, action) => {
                 console.log(`action type: ${action.type}`, current(state))
             })

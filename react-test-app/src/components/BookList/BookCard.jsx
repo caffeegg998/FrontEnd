@@ -1,27 +1,29 @@
 import PropTypes from "prop-types";
-import {BiTime} from "react-icons/bi";
+import {IoMdBook} from "react-icons/io";
 // import {Book} from "../../types/bookcard.type.js"
 
-const BookCard = ({post}) => {
-    const { title,author,bookUrl} = post;
+const BookCard = ({book}) => {
+    const { title,author,coverUrl,format} = book;
     return <div className='card'>
-        <img src={bookUrl} className='w-full'/>
+        <img src={`http://localhost:8082/api/book/download/${coverUrl}`} className='w-full'/>
         <div className='p-4 text-white'>
             <h4>{title}</h4>
             <p>{author}</p>
         </div>
         <div className='badge'>
-            <BiTime/>
-            {/*<p>{runtime}</p>*/}
+            <IoMdBook/>
+            <p>{format}</p>
         </div>
     </div>
 };
 
 BookCard.propTypes = {
-    post: PropTypes.shape({
+    book: PropTypes.shape({
         title: PropTypes.string.isRequired,
         author: PropTypes.string.isRequired,
         bookUrl: PropTypes.string.isRequired,
+        coverUrl: PropTypes.string.isRequired,
+        format: PropTypes.string.isRequired,
     }).isRequired,
 };
 export default BookCard;
