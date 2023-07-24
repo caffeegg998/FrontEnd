@@ -6,6 +6,7 @@ import Header from "./components/Header/index.jsx";
 import BookList from "./components/BookList/index.jsx";
 import {Provider} from "react-redux";
 import {store} from "./store/store.js";
+import CreateBook from "./components/CreateBook/index.js";
 
 const App = () => {
 
@@ -19,6 +20,7 @@ const App = () => {
                     <AuthButtons />
                     <Header />
                     <BookList />
+                    <CreateBook />
                 </Provider>
             </main>
 

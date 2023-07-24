@@ -15,7 +15,6 @@ const initialState = {
     bookList: {
         data: initialBookList,
         msg: "Mặc định",
-
     },
     editingBook: null,
     loading: false,
@@ -39,14 +38,20 @@ export const getBookList = createAsyncThunk('book/list-book', async (_,thunkApi)
     }
 });
 
-export const addBook = createAsyncThunk('blog/addBook', async (formdata, thunkAPI) => {
+export const addBook = createAsyncThunk('book/add-book-file', async (formData, thunkAPI) => {
     try {
-        const response = await http.post('book/add-book-file', formdata, {
+        const response = await http.post('book/add-book-file', formData, {
             signal: thunkAPI.signal,
             headers: {
                 'Content-Type': 'multipart/form-data', // Định dạng là form data
             },
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity,
+            // headers: {
+            //     'Content-Type': 'multipart/form-data', // Định dạng là form data
+            // },
         })
+        console.log(response.data)
         return response.data
     } catch (error) {
         if (error.name === 'AxiosError' && error.response.status === 500) {
@@ -55,17 +60,33 @@ export const addBook = createAsyncThunk('blog/addBook', async (formdata, thunkAP
         throw error
     }
 })
+// export const updateBook = createAsyncThunk(
+//     'book/updateBook',
+//     async ({ bookId, body }, thunkAPI) => {
+//         try {
+//             const response = await http.put(`posts/${bookId}`, body, {
+//                 signal: thunkAPI.signal
+//             })
+//             return response.data
+//         } catch (error) {
+//             if (error.name === 'AxiosError' && error.response.status === 422) {
+//                 return thunkAPI.rejectWithValue(error.response.data)
+//             }
+//             throw error
+//         }
+//     }
+// )
 // console.log("get listbook:" + getBookList())
 
 const bookSlice = createSlice({
     name: 'book',
     initialState,
     reducers: {
-        startEditingPost: (state, action) => {
-            const postId = action.payload
-            const foundPost = state.postList.find((post) => post.id === postId) || null
-            state.editingPost = foundPost
-        },
+        // startEditingBook: (state, action) => {
+        //     const bookId = action.payload
+        //     const foundBook = state.book.data.bookList.find((book) => book.id === bookId) || null
+        //     state.editingBook = foundBook
+        // },
     },
     extraReducers(builder) {
         builder
@@ -77,9 +98,15 @@ const bookSlice = createSlice({
                 state.loading = false;
                 state.bookList = action.payload
             })
+            // .addCase(addBook.pending, (state) => {
+            //     // Xử lý trạng thái loading nếu cần
+            // })
             .addCase(addBook.fulfilled, (state, action) => {
-                state.bookList.push(action.payload)
+                console.log(state)
             })
+            // .addCase(addBook.rejected, (state, action) => {
+            //     // Xử lý khi API gọi bị lỗi, nếu cần
+            // })
             // .addCase(getBookList.rejected,(state,action)=> {
             //     state.loading = false;
             //     state.error = action.error.message;
