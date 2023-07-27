@@ -9,5 +9,5 @@ class Http {
   }
 }
 const http = new Http().instance;
-console.log(http);
+// console.log(http);
 export default http

@@ -30,7 +30,7 @@ export const getBookList = createAsyncThunk('book/list-book', async (_,thunkApi)
         )
         // const response = await axios.get('http://localhost:8082/api/book/list-book')
         // Trả về dữ liệu từ API
-        console.log(response.data)
+        // console.log(response.data)
         return response.data;
     } catch (error) {
         // Nếu xảy ra lỗi trong quá trình gọi API hoặc xử lý dữ liệu, hãy throw lỗi
@@ -51,7 +51,6 @@ export const addBook = createAsyncThunk('book/add-book-file', async (formData, t
             //     'Content-Type': 'multipart/form-data', // Định dạng là form data
             // },
         })
-        console.log(response.data)
         return response.data
     } catch (error) {
         if (error.name === 'AxiosError' && error.response.status === 500) {
@@ -59,6 +58,33 @@ export const addBook = createAsyncThunk('book/add-book-file', async (formData, t
         }
         throw error
     }
+})
+export const updateBook = createAsyncThunk(
+    'book/updateBook',
+    async (formData, thunkAPI) => {
+        try {
+            const response = await http.put(`book/`, formData, {
+                signal: thunkAPI.signal,
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Định dạng là form data
+                },
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
+            })
+            return response.data
+        } catch (error) {
+            if (error.name === 'AxiosError' && error.response.status === 500) {
+                return thunkAPI.rejectWithValue(error.response.data)
+            }
+            throw error
+        }
+    }
+)
+export const deleteBook = createAsyncThunk('book/deleteBook', async (bookId, thunkAPI) => {
+    const response = await http.delete(`book/${bookId}`, {
+        signal: thunkAPI.signal
+    })
+    return response.data
 })
 // export const updateBook = createAsyncThunk(
 //     'book/updateBook',
@@ -82,11 +108,14 @@ const bookSlice = createSlice({
     name: 'book',
     initialState,
     reducers: {
-        // startEditingBook: (state, action) => {
-        //     const bookId = action.payload
-        //     const foundBook = state.book.data.bookList.find((book) => book.id === bookId) || null
-        //     state.editingBook = foundBook
-        // },
+        setEditBook: (state, action) => {
+            const bookId = action.payload
+            // const foundBook = state.data
+            state.editingBook =  bookId
+        },
+        cancelEditingPost: (state) => {
+            state.editingBook = null
+        }
     },
     extraReducers(builder) {
         builder
@@ -102,7 +131,24 @@ const bookSlice = createSlice({
             //     // Xử lý trạng thái loading nếu cần
             // })
             .addCase(addBook.fulfilled, (state, action) => {
-                console.log(state)
+                state.bookList.data.push(action.payload.data)
+            })
+            .addCase(deleteBook.fulfilled, (state, action) => {
+                const bookId = action.meta.arg
+                const deleteBookIndex = state.bookList.data.findIndex((book) => book.id === bookId)
+                if (deleteBookIndex !== -1) {
+                    state.bookList.data.splice(deleteBookIndex, 1)
+                }
+            })
+            .addCase(updateBook.fulfilled, (state, action) => {
+                state.bookList.data.find((post, index) => {
+                    if (post.id === action.payload.data.id) {
+                        state.bookList.data[index] = action.payload.data
+                        return true
+                    }
+                    return false
+                })
+                state.editingPost = null
             })
             // .addCase(addBook.rejected, (state, action) => {
             //     // Xử lý khi API gọi bị lỗi, nếu cần
@@ -114,8 +160,9 @@ const bookSlice = createSlice({
 
 
             .addDefaultCase((state, action) => {
-                console.log(`action type: ${action.type}`, current(state))
+                // console.log(`action type: ${action.type}`, current(state))
             })
     }
 })
+export const {setEditBook,cancelEditingPost } = bookSlice.actions
 export default bookSlice.reducer;

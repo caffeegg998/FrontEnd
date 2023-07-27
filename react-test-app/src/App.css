@@ -56,4 +56,7 @@
   .badge{
     @apply flex justify-between items-center bg-cyan-50 rounded-md absolute top-2 left-2 p-2 min-w-[25%];
   }
+  .badge2{
+    @apply flex items-center bg-cyan-50 rounded-md top-2 left-28 p-1;
+  }
 }
