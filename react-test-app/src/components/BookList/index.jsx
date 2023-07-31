@@ -4,7 +4,7 @@ import {Provider, useDispatch, useSelector} from 'react-redux'
 
 import BookCard from "./BookCard.jsx";
 import {store} from "../../store/store.js";
-import {deleteBook, getBookList, setEditBook} from "../book.slice.js";
+import {deleteBook, getBookList, setEditBook} from "../slice/book.slice.js";
 import SkeletonPost from "../SkeletonPost/index.js";
 
 export default function Index() {

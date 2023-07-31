@@ -1,4 +1,4 @@
-import {addBook, cancelEditingPost, updateBook} from "../book.slice.js";
+import {addBook, cancelEditingPost, updateBook} from "../slice/book.slice.js";
 import {Fragment, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {unwrapResult} from "@reduxjs/toolkit";
@@ -25,6 +25,7 @@ const CreateBook = () => {
     const [file2, setFile2] = useState(null); // Đối tượng File cho upload file
     const [id,setId] = useState(0)
     const [coverUrl,setCoverUrl] = useState('')
+    const [bookUrl,setBookUrl] = useState('')
 
     useEffect(() => {
 
@@ -40,6 +41,7 @@ const CreateBook = () => {
             setSeries(editingBook.series);
             setId(editingBook.id);
             setCoverUrl(editingBook.coverUrl)
+            setBookUrl(editingBook.bookUrl)
 
             // setId(editingBook.id)
         }
@@ -54,6 +56,7 @@ const CreateBook = () => {
             setFormat("");
             setSeries("");
             setCoverUrl("")
+            setBookUrl("")
             // setId("")
         }
     }, [editingBook]);
@@ -68,8 +71,9 @@ const CreateBook = () => {
     formData.append('description',description);
     formData.append('format',format);
     formData.append('series',series);
-    formData.append('file',file);
     formData.append('file2',file2);
+    formData.append('file',file);
+
     // formData.append('id',id)
     const displayImage = (input) => {
         if (input.files && input.files[0]) {

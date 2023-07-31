@@ -4,8 +4,8 @@
 import {current} from "immer";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 // import axios from "axios";
-import http from "../utils/http.js";
-import initialBookList from "../types/bookcard.type.js";
+import http from "../../utils/http.js";
+import initialBookList from "../../types/bookcard.type.js";
 
 // const initialState = {
 //     bookList: initialBookList,
@@ -86,23 +86,6 @@ export const deleteBook = createAsyncThunk('book/deleteBook', async (bookId, thu
     })
     return response.data
 })
-// export const updateBook = createAsyncThunk(
-//     'book/updateBook',
-//     async ({ bookId, body }, thunkAPI) => {
-//         try {
-//             const response = await http.put(`posts/${bookId}`, body, {
-//                 signal: thunkAPI.signal
-//             })
-//             return response.data
-//         } catch (error) {
-//             if (error.name === 'AxiosError' && error.response.status === 422) {
-//                 return thunkAPI.rejectWithValue(error.response.data)
-//             }
-//             throw error
-//         }
-//     }
-// )
-// console.log("get listbook:" + getBookList())
 
 const bookSlice = createSlice({
     name: 'book',
