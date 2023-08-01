@@ -1,16 +1,33 @@
 
-import Nav from "../Nav/index.jsx";
-import AuthButtons from "../AuthButtons/index.jsx";
-import Header from "../Header/index.jsx";
-import BookList from "../BookList/index.jsx";
-import CreateBook from "../CreateBook/index.js";
-import {useContext} from "react";
+import Nav from "../../components/Nav/index.jsx";
+import Header from "../../components/Header/index.jsx";
+import BookList from "../../components/BookList/index.jsx";
+import CreateBook from "../../components/CreateBook/index.js";
+import {useContext, useEffect} from "react";
 import {AuthenContext} from "../../context/AuthenContext.jsx";
 import {Navigate} from "react-router-dom";
+import {toast,ToastContainer} from "react-toastify";
+import AuthMenu from "../../components/AuthMenu/index.jsx";
 
 const Index = () => {
+
     let {loading,user,logout} = useContext(AuthenContext);
-    // console.log(user)
+
+    const isTokenExpired = () => {
+        return Date.now() > Date.parse(user?.accessTokenExpired);
+    };
+    const notify=()=>{
+        toast("Phiên đăng nhập đã hết hạn!")
+    }
+    console.log(isTokenExpired())
+    useEffect(() => {
+        if (isTokenExpired()) {
+            notify();
+            logout();
+        }
+    }, [isTokenExpired()])
+
+    console.log(user)
     if (loading){
         return (
             <div role="status">
@@ -34,10 +51,11 @@ const Index = () => {
                 <div className='grid grid-cols-5'>
                     <Nav />
                     <main className='col-span-4 bg-cyan-50 px-12 py-6'>
-                        <AuthButtons user={user} logout={logout}/>
+                        <AuthMenu user={user} logout={logout}/>
                         <Header />
-                        <BookList />
+                        <BookList source="Dashboard"/>
                         <CreateBook />
+                        <ToastContainer></ToastContainer>
                     </main>
                 </div>
             </>
@@ -46,6 +64,8 @@ const Index = () => {
     else{
         return (<Navigate to="/login"/>)
     }
+
+
 
 };
 

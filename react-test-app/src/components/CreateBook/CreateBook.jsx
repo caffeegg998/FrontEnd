@@ -106,7 +106,7 @@ const CreateBook = () => {
             }
         } else {
             try {
-
+                console.log("Submit")
                 const res = await dispatch(addBook(formData))
                 console.log(unwrapResult(res))
             }

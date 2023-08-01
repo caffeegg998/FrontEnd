@@ -7,7 +7,7 @@ import {store} from "../../store/store.js";
 import {deleteBook, getBookList, setEditBook} from "../slice/book.slice.js";
 import SkeletonPost from "../SkeletonPost/index.js";
 
-export default function Index() {
+export default function Index({ source }) {
     const dispath = useDispatch();
     const bookList = useSelector((state)=> state.book.data.bookList.data)
     const loading = useSelector((state)=> state.book.data.loading)
@@ -28,27 +28,57 @@ export default function Index() {
         dispath(setEditBook(book))
     }
     // // console.log(bookList)
-    return (
-        <>
-           <Provider store={store}>
-            <h3 className='border-b border-primary mt-12 mb-6 pb-4'>Trending</h3>
-            <div className='grid grid-cols-4 gap-10 mb-12 '>
-                {loading && (
-                    <Fragment>
-                        <SkeletonPost />
-                        <SkeletonPost />
-                    </Fragment>
-                )}
-                {!loading &&
-                    bookList.map((book)=>
-                    <BookCard book={book} key={book.id} handleDelete={handleDelete} handleStartEditing={handleStartEditing}/>)}
-            </div>
-            <div className='flex justify-center'>
-                <button className='btn hover:scale-125 transition ease-out duration-500'>
-                    Xem thêm
-                </button>
-            </div>
-            </Provider>
-        </>
-    )
+    if(source === "Home"){
+        return (
+            <>
+                <Provider store={store}>
+                    <h3 className='border-b border-primary mt-12 mb-6 pb-4'>Trending</h3>
+                    <div className='grid grid-cols-4 gap-10 mb-12 '>
+                        {loading && (
+                            <Fragment>
+                                <SkeletonPost />
+                                <SkeletonPost />
+                            </Fragment>
+                        )}
+                        {!loading &&
+                            bookList.map((book)=>
+                                <BookCard book={book} key={book.id} source="Home"/>
+                            )}
+                    </div>
+                    <div className='flex justify-center'>
+                        <button className='btn hover:scale-125 transition ease-out duration-500'>
+                            Xem thêm
+                        </button>
+                    </div>
+                </Provider>
+            </>
+        )
+    }
+    else
+    {
+        return (
+            <>
+                <Provider store={store}>
+                    <h3 className='border-b border-primary mt-12 mb-6 pb-4'>Trending</h3>
+                    <div className='grid grid-cols-4 gap-10 mb-12 '>
+                        {loading && (
+                            <Fragment>
+                                <SkeletonPost />
+                                <SkeletonPost />
+                            </Fragment>
+                        )}
+                        {!loading &&
+                            bookList.map((book)=>
+                                <BookCard book={book} key={book.id} handleDelete={handleDelete} handleStartEditing={handleStartEditing}/>
+                            )}
+                    </div>
+                    <div className='flex justify-center'>
+                        <button className='btn hover:scale-125 transition ease-out duration-500'>
+                            Xem thêm
+                        </button>
+                    </div>
+                </Provider>
+            </>
+        )
+    }
 }

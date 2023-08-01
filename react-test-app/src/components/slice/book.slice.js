@@ -3,7 +3,7 @@
 
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 // import axios from "axios";
-import http from "../../utils/http.js";
+import {axiosInstance} from "../../utils/http.js";
 import initialBookList from "../../types/bookcard.type.js";
 
 // const initialState = {
@@ -23,7 +23,7 @@ const initialState = {
 export const getBookList = createAsyncThunk('book/list-book', async (_,thunkApi)=> {
     try {
         // Gọi API để lấy danh sách sách từ server (Ví dụ: sử dụng Axios)
-        const response = await http.get('book/list-book', {
+        const response = await axiosInstance.get('book/list-book', {
                 signal:thunkApi.signal
             }
         )
@@ -36,19 +36,23 @@ export const getBookList = createAsyncThunk('book/list-book', async (_,thunkApi)
         throw new Error('Error fetching book list: ' + error.message);
     }
 });
-
+// http.interceptors.request.use((config) => {
+//     const user = JSON.parse(localStorage.getItem("user"));
+//     const tokenAccess = user?.accessToken;
+//     if (tokenAccess) {
+//         config.headers['Authorization'] = `${tokenAccess}`;
+//     }
+//     return config;
+// });
 export const addBook = createAsyncThunk('book/add-book-file', async (formData, thunkAPI) => {
+    console.log("add book")
+
     try {
-        const response = await http.post('book/add-book-file', formData, {
+
+        const response = await axiosInstance.post('book/member/add-book-filee', formData, {
             signal: thunkAPI.signal,
-            headers: {
-                'Content-Type': 'multipart/form-data', // Định dạng là form data
-            },
             maxContentLength: Infinity,
             maxBodyLength: Infinity,
-            // headers: {
-            //     'Content-Type': 'multipart/form-data', // Định dạng là form data
-            // },
         })
         return response.data
     } catch (error) {
@@ -62,7 +66,7 @@ export const updateBook = createAsyncThunk(
     'book/updateBook',
     async (formData, thunkAPI) => {
         try {
-            const response = await http.put(`book/`, formData, {
+            const response = await axiosInstance.put(`book/member/update-book`, formData, {
                 signal: thunkAPI.signal,
                 headers: {
                     'Content-Type': 'multipart/form-data', // Định dạng là form data
@@ -80,7 +84,7 @@ export const updateBook = createAsyncThunk(
     }
 )
 export const deleteBook = createAsyncThunk('book/deleteBook', async (bookId, thunkAPI) => {
-    const response = await http.delete(`book/${bookId}`, {
+    const response = await axiosInstance.delete(`book/member/delete/${bookId}`, {
         signal: thunkAPI.signal
     })
     return response.data
