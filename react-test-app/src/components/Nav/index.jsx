@@ -9,17 +9,17 @@ const items = [
     {
         label:'Trang Chủ',
         icon:<BiHomeAlt size={defaultIconSize}/>,
-
+        active:false
     },
     {
         label:'Sách xem nhiều nhất',
         icon:<BiMoviePlay size={defaultIconSize}/>,
-        active:true
+        active:false
     },
     {
         label:'About',
         icon:<BiInfoCircle size={defaultIconSize}/>,
-        // active:true
+        active:false
     }
 ]
 

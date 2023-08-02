@@ -19,7 +19,24 @@ const initialState = {
     loading: false,
     currentRequestId: undefined
 };
-
+export const getBookListByCreator = createAsyncThunk('book/list-book-by-creator', async (_,thunkApi)=> {
+    try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const username = user?.userName;
+        // Gọi API để lấy danh sách sách từ server (Ví dụ: sử dụng Axios)
+        const response = await axiosInstance.get(`book/list-book-by-creator/?creator=${username}`, {
+                signal:thunkApi.signal
+            }
+        )
+        // const response = await axios.get('http://localhost:8082/api/book/list-book')
+        // Trả về dữ liệu từ API
+        console.log(response.data)
+        return response.data;
+    } catch (error) {
+        // Nếu xảy ra lỗi trong quá trình gọi API hoặc xử lý dữ liệu, hãy throw lỗi
+        throw new Error('Error fetching book list: ' + error.message);
+    }
+});
 export const getBookList = createAsyncThunk('book/list-book', async (_,thunkApi)=> {
     try {
         // Gọi API để lấy danh sách sách từ server (Ví dụ: sử dụng Axios)
@@ -48,8 +65,8 @@ export const addBook = createAsyncThunk('book/add-book-file', async (formData, t
     console.log("add book")
 
     try {
-
-        const response = await axiosInstance.post('book/member/add-book-filee', formData, {
+        console.log(...formData)
+        const response = await axiosInstance.post('book/member/add-book-file', formData, {
             signal: thunkAPI.signal,
             maxContentLength: Infinity,
             maxBodyLength: Infinity,
@@ -109,6 +126,10 @@ const bookSlice = createSlice({
             //     state.loading = true;
             //     state.error= null;
             // })
+            .addCase(getBookListByCreator.fulfilled,(state, action) => {
+                state.loading = false;
+                state.bookList = action.payload
+            })
             .addCase(getBookList.fulfilled,(state, action) => {
                 state.loading = false;
                 state.bookList = action.payload

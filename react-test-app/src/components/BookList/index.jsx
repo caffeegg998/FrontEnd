@@ -4,10 +4,10 @@ import {Provider, useDispatch, useSelector} from 'react-redux'
 
 import BookCard from "./BookCard.jsx";
 import {store} from "../../store/store.js";
-import {deleteBook, getBookList, setEditBook} from "../slice/book.slice.js";
+import {deleteBook, getBookList, getBookListByCreator, setEditBook} from "../slice/book.slice.js";
 import SkeletonPost from "../SkeletonPost/index.js";
 
-export default function Index({ source }) {
+export default function Index({ source,user }) {
     const dispath = useDispatch();
     const bookList = useSelector((state)=> state.book.data.bookList.data)
     const loading = useSelector((state)=> state.book.data.loading)
@@ -16,10 +16,19 @@ export default function Index({ source }) {
     // console.log(loading)
     // const isMountedRef = useRef(true);
     useEffect(() => {
-        const promise = dispath(getBookList())
-        return () => {
-            promise.abort()
+        if(user){
+            const promise = dispath(getBookListByCreator())
+            return () => {
+                promise.abort()
+            }
+        }else
+        {
+            const promise = dispath(getBookList())
+            return () => {
+                promise.abort()
+            }
         }
+
     }, [dispath])
     const handleDelete = (bookId) => {
         dispath(deleteBook(bookId))

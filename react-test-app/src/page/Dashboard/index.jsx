@@ -16,13 +16,16 @@ const Index = () => {
     const isTokenExpired = () => {
         return Date.now() > Date.parse(user?.accessTokenExpired);
     };
-    const notify=()=>{
-        toast("Phiên đăng nhập đã hết hạn!")
-    }
+    console.log("Now: " + Date.now())
+    console.log("token: " + Date.parse(user?.accessTokenExpired))
     console.log(isTokenExpired())
+    // const notify=()=>{
+    //     toast("Phiên đăng nhập đã hết hạn!")
+    // }
+    // console.log(isTokenExpired())
     useEffect(() => {
         if (isTokenExpired()) {
-            notify();
+            // notify();
             logout();
         }
     }, [isTokenExpired()])
@@ -53,7 +56,7 @@ const Index = () => {
                     <main className='col-span-4 bg-cyan-50 px-12 py-6'>
                         <AuthMenu user={user} logout={logout}/>
                         <Header />
-                        <BookList source="Dashboard"/>
+                        <BookList user={user} source="Dashboard"/>
                         <CreateBook />
                         <ToastContainer></ToastContainer>
                     </main>

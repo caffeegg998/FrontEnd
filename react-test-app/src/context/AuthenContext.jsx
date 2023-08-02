@@ -24,10 +24,10 @@ export function AuthenProvider({children}){
     let login = async (username, password) => {
         try {
             const response = await axiosInstance.post(`login?username=${username}&password=${password}`);
-            const { accessToken, refreshToken, fullName ,accessTokenExpired} = response.data.data;
+            const { accessToken, refreshToken, fullName ,accessTokenExpired, userName} = response.data.data;
             // console.log(response.data.data)
-            let user = { accessToken, refreshToken, fullName,accessTokenExpired };
-            // console.log(user)
+            let user = { accessToken, refreshToken, fullName,accessTokenExpired,userName};
+            console.log(user)
             setUser(user);
             localStorage.setItem("user", JSON.stringify(user));
         } catch (error) {
