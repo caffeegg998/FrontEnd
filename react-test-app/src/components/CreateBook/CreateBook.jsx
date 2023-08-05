@@ -1,4 +1,4 @@
-import {addBook, cancelEditingPost, updateBook} from "../slice/book.slice.js";
+import {addBook, cancelEditingPost, updateBook} from "../../slice/book.slice.js";
 import {Fragment, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {unwrapResult} from "@reduxjs/toolkit";

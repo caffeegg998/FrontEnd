@@ -3,8 +3,8 @@
 
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 // import axios from "axios";
-import {axiosInstance} from "../../utils/http.js";
-import initialBookList from "../../types/bookcard.type.js";
+import {axiosInstance} from "../utils/http.js";
+import initialBookList from "../types/bookcard.type.js";
 
 // const initialState = {
 //     bookList: initialBookList,

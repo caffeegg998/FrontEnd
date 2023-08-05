@@ -3,15 +3,21 @@ import PropTypes from "prop-types";
 import {axiosInstance} from "../utils/http.js";
 
 export const AuthenContext = createContext({
+
     loading:true,
     user: null,
     login: () => {},
-    logout: () => {}
+    logout: () => {},
+    register: ()=> {},
+    activeToken: () => {},
+    forgotPassword: () => {},
+    resetPassword: () => {}
 })
 AuthenProvider.propTypes = {
     children: PropTypes.node.isRequired,
 };
 export function AuthenProvider({children}){
+
     let [user,setUser] = useState(null)
     let [loading,setLoading] = useState(true)
 
@@ -35,6 +41,54 @@ export function AuthenProvider({children}){
             // Handle login failure if needed
         }
     };
+    let register = async (fullName,username,password,email) => {
+        try {
+            const requestBody = {
+                user: {
+                fullName: fullName,
+                username: username,
+                password: password,
+                email: email
+                }
+            };
+            const response = await axiosInstance.post('customer/register',requestBody)
+            return response.data
+        } catch (error){
+            console.error('Error:', error.message);
+        }
+    }
+    let forgotPassword = async (email) => {
+        try {
+            const requestBody = {
+                email: email
+            };
+            const response = await axiosInstance.post('customer/password-reset-request',requestBody)
+            return response.data
+        } catch (error){
+            console.error('Error:', error.message);
+        }
+    }
+    let resetPassword = async (resetToken,newPassword) => {
+        try {
+            const requestBody = {
+                newPassword: newPassword
+            };
+            const response = await axiosInstance.post(`customer/reset-password?token=${resetToken}`,requestBody)
+            return response.data
+        } catch (error){
+            console.error('Error:', error.message);
+        }
+    }
+    let activeToken = async (activeToken) => {
+        try {
+            const response = await axiosInstance.get(`customer/verifyEmail?token=${activeToken}`);
+            console.log(response.data)
+            return response.data
+        } catch (error) {
+            console.error("Login failed:", error);
+            // Handle login failure if needed
+        }
+    }
     let logout = () => {
         // setToken("");
         setUser(null);
@@ -48,7 +102,11 @@ export function AuthenProvider({children}){
             loading,
             user,
             login,
-            logout
+            logout,
+            register,
+            activeToken,
+            forgotPassword,
+            resetPassword
         }
     }>
         {children}

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import {IoMdBook} from "react-icons/io";
 import {RiDeleteBin6Line} from "react-icons/ri";
 import {FiEdit} from "react-icons/fi";
-import {setEditBook} from "../slice/book.slice.js";
+import {setEditBook} from "../../slice/book.slice.js";
 import {useDispatch} from "react-redux";
 // import {Book} from "../../types/bookcard.type.js"
 const BookCard = ({book,handleDelete, handleStartEditing,source}) => {

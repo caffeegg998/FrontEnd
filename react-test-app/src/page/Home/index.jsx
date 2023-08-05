@@ -3,8 +3,6 @@ import Nav from "../../components/Nav/index.jsx";
 import AuthButtons from "../../components/AuthButtons/index.jsx";
 import Header from "../../components/Header/index.jsx";
 import BookList from "../../components/BookList/index.jsx";
-import {useContext} from "react";
-import {AuthenContext} from "../../context/AuthenContext.jsx";
 
 const Index = () => {
     return (
