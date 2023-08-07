@@ -4,20 +4,84 @@ import {AuthenContext} from "../../context/AuthenContext.jsx";
 
 const Register = () => {
     let navigate = useNavigate();
+    //input
     let[username,setUsername] = useState("");
     let[password, setPassword] = useState("")
     let[fullName,setFullName] = useState("");
     let[email,setEmail] = useState("");
 
+    //check Password
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(true);
 
-    let {register: registerCtx} = useContext(AuthenContext)
+    //check Msg, error
+    const [codeUser , setCodeUser] = useState(0)
+    const [codeEmail , setCodeEmail] = useState(0)
+    const [code , setCode] = useState(0)
+    const [msgResponse , setMsgResponse] = useState("")
+    const [status, setStatus] = useState(true);
+
+    let {register: registerCtx,checkUser,checkEmail} = useContext(AuthenContext)
     let register = async () =>{
         const response = await registerCtx(fullName,username,password,email)
+        console.log(response)
+        if(response.status === 400)
+        {
+            if(response.error["user.password"]){
+                setMsgResponse(response.error["user.password"])
+                setCode(400)
+            }
+        }
+        if (response.status === 408){
+            setStatus(false);
+            setCode(408)
+            setMsgResponse(response.msg)
+        }
+        if (response.status === 409){
+            setStatus(false);
+            setCode(409)
+            setMsgResponse(response.msg)
+        }
         if(response.status === 200)
         {
             navigate("/regsuccess")
+        }
+
+    }
+
+    const handleUsernameChange = async (e) => {
+        const newUsername = e.target.value;
+        console.log(newUsername)
+        console.log(username)
+        setUsername(newUsername);
+        if (username !== '') {
+            const checkResponse = await checkUser(newUsername);
+            console.log(checkResponse)
+            if (checkResponse.status === 200) {
+                setStatus(false);
+                setCodeUser(200);
+            }if (checkResponse.status === 403) {
+                setStatus(false);
+                setCodeUser(403)
+            }if(newUsername == ''){
+                setCodeUser(0)
+            }
+
+        }
+    }
+    const handleEmailChange = async (e) => {
+        const newEmail = e.target.value;
+        setEmail(newEmail);
+        if (newEmail !== '') {
+            const checkResponse = await checkEmail(newEmail);
+            console.log(checkResponse)
+            if (checkResponse.status === 403) {
+                setStatus(false);
+                setCodeEmail(403);
+            }else {
+                setCodeEmail(0);
+            }
+            return null
         }
     }
 
@@ -84,8 +148,14 @@ const Register = () => {
                                     placeholder="Tên đăng nhập..."
                                     required=""
                                     value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    onChange={handleUsernameChange}
                                 />
+                                {status ? null : (
+                                    <>
+                                        { codeUser === 200 || codeUser === 403 ?(<>{ codeUser === 200 || codeUser === 403 ? <p className={`text-${codeUser === 403?'red':'green'}-500 text-sm`}>{codeUser === 403?'Username đã tồn tại!':'Bạn có thể sử dụng username này'}</p>:null}
+                                        </>):null}
+                                    </>
+                                )}
                             </div>
                             <div>
                                 <label
@@ -102,8 +172,13 @@ const Register = () => {
                                     placeholder="name@company.com"
                                     required=""
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={handleEmailChange}
                                 />
+                                {status ? null : (
+                                    <>
+                                        { codeEmail === 403 ? (<p className={`text-red-500 text-sm`}>Email này đã được đăng ký ở tài khoản khác!</p>) : null}
+                                    </>
+                                )}
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -119,6 +194,11 @@ const Register = () => {
                                     value={password}
                                     onChange={handlePasswordChange}
                                 />
+                                {status ? null : (
+                                    <>
+                                        { code === 400 ? (<p className={`text-red-500 text-sm`}>{msgResponse}</p>) : null}
+                                    </>
+                                )}
                             </div>
                             <div>
                                 <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

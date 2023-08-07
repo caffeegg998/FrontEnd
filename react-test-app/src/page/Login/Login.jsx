@@ -9,12 +9,30 @@ const Login = () => {
     let[username,setUsername] = useState("");
     let[password, setPassword] = useState("")
 
+    const [status, setStatus] = useState(true)
+    const [msgResponse , setMsgResponse] = useState("")
+    const [code,setCode] = useState(0)
+
     console.log(username,password)
     let {login: loginCtx} = useContext(AuthenContext)
 
     let login = async () =>{
-        await loginCtx(username,password)
-        navigate("/dashboard")
+        const response = await loginCtx(username,password)
+        console.log(response)
+        if(response.status === 200){
+            navigate("/dashboard")
+        }
+        if(response.status === 403){
+            setMsgResponse(response.msg)
+            setStatus(false)
+            setCode(0)
+        }
+        if(response.status === 402){
+            setMsgResponse(response.msg)
+            setStatus(false)
+            setCode(402)
+        }
+
     }
 
     //Doc doi tuong Ctx, destruction, doi ten ham
@@ -42,6 +60,10 @@ const Login = () => {
                                        placeholder="name@company.com" required=""
                                        value={username}
                                        onChange={(e) => setUsername(e.target.value)}/>
+                                {status ? null : (
+                                    <p className={'text-red-500 text-sm'}>{msgResponse}{code === 402 ?null:(<a className={'text-blue-400 underline'} href='/active-account'> Kích hoạt tài khoản</a>)}</p>
+                                )}
+
                             </div>
                             <div>
                                 <label htmlFor="password"
