@@ -1,5 +1,6 @@
 import {useContext, useState} from "react";
 import {AuthenContext} from "../../context/AuthenContext.jsx";
+import {Link} from "react-router-dom";
 
 
 const ActiveAccount = () => {
@@ -14,13 +15,13 @@ const ActiveAccount = () => {
         if(response.status === 201)
         {
             setStatus(false)
-            setCode(0)
+            setCode(201)
             setMsgResponse(response.complete)
         }
         if(response.status === 200)
         {
             setStatus(false)
-            setCode(0)
+            setCode(200)
             setMsgResponse(response.complete)
         }
         if(response.status === 403)
@@ -78,13 +79,20 @@ const ActiveAccount = () => {
                                     <p className={`text-${ code === 404 || code ===403 ? 'red' : 'green'}-500 text-sm`}>{msgResponse}</p>
                                 )}
                                 <div className="flex justify-end">
-                                    <button
-                                        type="button"
-                                        className="text-white border-white border-2 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                        onClick={() => activeTokenUser()}
-                                    >
-                                        Kích hoại tài khoản
-                                    </button>
+                                    { code === 200 || code === 201?(<button
+                                    type="button"
+                                    className="text-white border-white border-2 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+
+                                >
+                                    <Link to="/login">Đăng nhập</Link>
+                                </button>) :(<button
+                                    type="button"
+                                    className="text-white border-white border-2 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                    onClick={() => activeTokenUser()}
+                                    > Kích hoạt tài khoản
+                                </button>)}
+
+
                                 </div>
                             </form>
                         </div>

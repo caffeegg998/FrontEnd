@@ -13,7 +13,8 @@ export const AuthenContext = createContext({
     forgotPassword: () => {},
     resetPassword: () => {},
     checkUser: () => {},
-    checkEmail: () => {}
+    checkEmail: () => {},
+    resentActiveToken: () => {}
 })
 AuthenProvider.propTypes = {
     children: PropTypes.node.isRequired,
@@ -93,6 +94,17 @@ export function AuthenProvider({children}){
 
         }
     }
+    let resentActiveToken = async (email) => {
+        try {
+            const requestBody = {
+                email:email
+            };
+            const response = await axiosInstance.post('customer/active-account-request',requestBody)
+            return response.data;
+        }catch (error){
+            console.error('Error', error.message);
+        }
+    }
     let forgotPassword = async (email) => {
         try {
             const requestBody = {
@@ -144,7 +156,8 @@ export function AuthenProvider({children}){
             forgotPassword,
             resetPassword,
             checkUser,
-            checkEmail
+            checkEmail,
+            resentActiveToken
         }
     }>
         {children}

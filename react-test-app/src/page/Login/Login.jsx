@@ -61,7 +61,7 @@ const Login = () => {
                                        value={username}
                                        onChange={(e) => setUsername(e.target.value)}/>
                                 {status ? null : (
-                                    <p className={'text-red-500 text-sm'}>{msgResponse}{code === 402 ?null:(<a className={'text-blue-400 underline'} href='/active-account'> Kích hoạt tài khoản</a>)}</p>
+                                    <p className={'text-red-500 text-sm'}>{msgResponse}{code === 402 ?null:(<a className={'text-blue-400 underline'} href='/resend-active-account'> Kích hoạt tài khoản</a>)}</p>
                                 )}
 
                             </div>
