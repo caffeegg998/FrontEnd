@@ -12,7 +12,7 @@ const items = [
         active:false
     },
     {
-        label:'Sách xem nhiều nhất',
+        label:'Xem Nhiều',
         icon:<BiMoviePlay size={defaultIconSize}/>,
         active:false
     },
@@ -30,10 +30,10 @@ const NavItemsContainer = () => <>
 </>
 const Index = () => {
     return (
-        <nav className='col-span-1 bg-cyan-200'>
+        <nav className='col-span-1 bg-cyan-200 h-full'>
             <div className='mx-4 justify-between items-center'>
 
-                <h4 className='uppercase font-bold text-primary py-4 border-b border-primary text-right'>PaperEbook.net</h4>
+                <h4 className='uppercase font-bold text-primary py-4 border-b border-primary text-right'>DANH MỤC SÁCH</h4>
             </div>
             <ul className='mx-4 my-2'>
                 <NavItemsContainer/>

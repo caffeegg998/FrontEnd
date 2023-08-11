@@ -125,6 +125,7 @@ export function AuthenProvider({children}){
             return response.data
         } catch (error){
             console.error('Error:', error.message);
+            return error.response.data
         }
     }
     let activeToken = async (activeToken) => {

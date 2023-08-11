@@ -36,6 +36,10 @@ export default {
       fontFamily:{
         barlow:['"Barlow Condensed"','sans-serif']
       },
+      backgroundImage: {
+        'bookCover': "url('http://localhost:8082/api/book/download/be8e7faf-2125-419f-8bb7-e1f1fc1ae3d6.jpeg')",
+        'footer-texture': "url('/img/footer-texture.png')",
+      },
       colors:{
         primary:'#16405B'
       }

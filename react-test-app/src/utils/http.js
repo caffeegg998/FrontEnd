@@ -33,7 +33,7 @@ import axios from "axios";
 
 export const axiosInstance = axios.create({
     baseURL: "http://localhost:8082/api/",
-    timeout: 10000,
+    timeout: 30000,
 })
 axiosInstance.interceptors.request.use(function (config) {
     let { headers } = config
@@ -46,7 +46,12 @@ axiosInstance.interceptors.request.use(function (config) {
             "Authorization": `Bearer ${accessToken}`
         }
     }
-    return config;
+    // return config;
+    return new Promise(resolve => {  //Mô phỏng độ trễ 2 dây
+        setTimeout(() => {
+            resolve(config);
+        }, 2000);
+    });
 }, function (error) {
     // Do something with request error
     return Promise.reject(error);

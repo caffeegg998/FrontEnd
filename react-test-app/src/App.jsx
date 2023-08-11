@@ -10,6 +10,7 @@ import ForgotResponse from "./page/ForgotPassword/ForgotResponse/ForgotResponse.
 import RegSuccess from "./page/Register/RegSuccess.jsx";
 import ActiveAccount from "./page/Register/ActiveAccount.jsx";
 import ResendActiveAccount from "./page/Register/ResendActiveAccount.jsx";
+import BookDetail from "./page/BookDetail/BookDetail.jsx";
 
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
                 <Route path='forgotResponse' element={<ForgotResponse />}/>
                 <Route path='active-account' element={<ActiveAccount />}/>
                 <Route path='resend-active-account' element={<ResendActiveAccount />}/>
+                <Route path='book-detail' element={<BookDetail />}/>
             </Routes>
 
 
