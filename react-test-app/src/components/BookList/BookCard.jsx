@@ -9,16 +9,16 @@ const BookCard = ({book,handleDelete, handleStartEditing,source}) => {
     const dispath = useDispatch()
     const { id,title,author,coverUrl,format} = book;
     if(source === "Home"){
-        return <div className='card'>
-            <img src={`http://localhost:8082/api/book/download/${coverUrl}`} className='w-full'/>
-            <div className='p-4 text-white'>
-                <h4>{title}</h4>
-                <p>{author}</p>
-            </div>
-            <div className='badge'>
-                <IoMdBook/>
-                <p >{format}</p>
-            </div>
+        return <div className='card block items-center my-auto'>
+                    <img src={`http://localhost:8082/api/book/download/${coverUrl}`} className='w-full'/>
+                    <div className='py-2 px-2 text-white '>
+                        <h4 className='text-sm'>{title}</h4>
+                        <p className='text-xs'>{author}</p>
+                    </div>
+                    <div className='badge'>
+                        <IoMdBook/>
+                        <p >{format}</p>
+                    </div>
         </div>
     }
     else{

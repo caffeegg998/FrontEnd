@@ -1,18 +1,19 @@
 
-import Nav from "../../components/Nav/index.jsx";
 import Header from "../../components/Header/index.jsx";
 import BookList from "../../components/BookList/index.jsx";
 import CreateBook from "../../components/CreateBook/index.js";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthenContext} from "../../context/AuthenContext.jsx";
 import {Navigate} from "react-router-dom";
-import {toast,ToastContainer} from "react-toastify";
-import AuthMenu from "../../components/AuthMenu/index.jsx";
+import SideBar2 from "../../components/SideBar2/SideBar2.jsx";
+import Footer from "../../components/Footer/Footer.jsx";
+import NavAuth from "../../components/NavAuth/NavAuth.jsx";
+import AddBook from "../../components/AddBook/AddBook.jsx";
+import BookManage from "./BookManager/BookManage.jsx";
 
 const Index = () => {
 
     let {loading,user,logout} = useContext(AuthenContext);
-
     const isTokenExpired = () => {
         return Date.now() > Date.parse(user?.accessTokenExpired);
     };
@@ -29,9 +30,9 @@ const Index = () => {
             logout();
         }
     }, [isTokenExpired()])
-
-    console.log(user)
+    const [activeIndex, setActiveIndex] = useState(0);
     if (loading){
+
         return (
             <div role="status">
                 <svg aria-hidden="true"
@@ -51,15 +52,28 @@ const Index = () => {
     if(user){
         return (
             <>
-                <div className='grid grid-cols-5'>
-                    <Nav />
-                    <main className='col-span-4 bg-cyan-50 px-12 py-6'>
-                        <AuthMenu user={user} logout={logout}/>
-                        <Header />
-                        <BookList user={user} source="Dashboard"/>
-                        <CreateBook />
-                        <ToastContainer></ToastContainer>
-                    </main>
+                <div className='bg-blue-100'>
+                    <Header />
+                    <div className='grid grid-cols-12 flex flex-wrap justify-between mx-auto max-w-screen-2xl'>
+                        <div className='col-span-2'>
+                            <NavAuth activeIndex={activeIndex} setActiveIndex={setActiveIndex}/>
+                        </div>
+                        {activeIndex === 0 && ( // Hiển thị BookList khi activeIndex là 0
+                            <div className='col-span-8'>
+                                <BookList user={user} source='Dashboard' />
+                            </div>
+                        )}
+                        {activeIndex === 1 && ( // Hiển thị BookList khi activeIndex là 0
+                            <div className='col-span-8'>
+                                <BookManage/>
+                            </div>
+                        )}
+                        {/*<CreateBook />*/}
+                        <div className='col-span-2 flex'>
+                            <SideBar2/>
+                        </div>
+                    </div>
+                    <Footer />
                 </div>
             </>
         );

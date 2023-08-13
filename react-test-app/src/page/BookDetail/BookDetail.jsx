@@ -12,21 +12,29 @@ const BookDetail = () => {
     return (
        <>
            <Header />
-           <div className='grid grid-cols-12'>
-               <div className='col-span-2'>
-                   <Nav/>
+
+               <div className='grid grid-cols-12 flex flex-wrap justify-between mx-auto max-w-screen-2xl'>
+                   <div className='col-span-2'><Nav/></div>
+                   <div className='col-span-8'>
+                       <div className='grid grid-cols-8'>
+                           {/*<div className='col-span-2'>*/}
+                           {/*    <Nav/>*/}
+                           {/*</div>*/}
+                           <main className='col-span-8 bg-cyan-50 px-12 py-6'>
+                               <h1 className='text-3xl'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h1>
+                               <ItemBookDetail/>
+                               <Rating/>
+                               <Comment/>
+                               <ToastContainer></ToastContainer>
+                           </main>
+
+                       </div>
+                   </div>
+                   <div className='col-span-2'>
+                       <SideBar2/>
+                   </div>
                </div>
-               <main className='col-span-8 bg-cyan-50 px-12 py-6'>
-                   <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h1>
-                   <ItemBookDetail/>
-                   <Rating/>
-                   <Comment/>
-                   <ToastContainer></ToastContainer>
-               </main>
-               <div className='col-span-2'>
-                   <SideBar2/>
-               </div>
-           </div>
+
        </>
     );
 };

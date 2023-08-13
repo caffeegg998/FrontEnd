@@ -13,7 +13,7 @@ export default function Index({ source,user }) {
     const loading = useSelector((state)=> state.book.data.loading)
     // const error = useSelector((state) => state.store.errors)
     // console.log(bookList)
-    // console.log(loading)
+    console.log(loading)
     // const isMountedRef = useRef(true);
     useEffect(() => {
         if(user){
@@ -41,23 +41,27 @@ export default function Index({ source,user }) {
         return (
             <>
                 <Provider store={store}>
-                    <h3 className='border-b border-primary mt-12 mb-6 pb-4'>Trending</h3>
-                    <div className='grid grid-cols-4 gap-10 mb-12 '>
-                        {loading && (
-                            <Fragment>
-                                <SkeletonPost />
-                                <SkeletonPost />
-                            </Fragment>
-                        )}
-                        {!loading &&
-                            bookList.map((book)=>
-                                <BookCard book={book} key={book.id} source="Home"/>
+                    <h3 className='border-b border-primary mt-5 mb-6 pb-4'>Trending</h3>
+                    <div className='bg-cyan-200 rounded-3xl'>
+                        <div className='grid grid-cols-4 gap-10 mb-12 p-5 '>
+                            {loading && (
+                                <Fragment>
+                                    <SkeletonPost />
+                                    <SkeletonPost />
+                                    <SkeletonPost />
+                                    <SkeletonPost />
+                                </Fragment>
                             )}
-                    </div>
-                    <div className='flex justify-center'>
-                        <button className='btn hover:scale-125 transition ease-out duration-500'>
-                            Xem thêm
-                        </button>
+                            {!loading &&
+                                bookList.map((book)=>
+                                    <BookCard book={book} key={book.id} source="Home"/>
+                                )}
+                        </div>
+                        <div className='flex justify-center p-5'>
+                            <button className='btn hover:scale-125 transition ease-out duration-500'>
+                                Xem thêm
+                            </button>
+                        </div>
                     </div>
                 </Provider>
             </>
@@ -68,6 +72,9 @@ export default function Index({ source,user }) {
         return (
             <>
                 <Provider store={store}>
+                    <div className='col-span-8'>
+                        <div className='grid grid-cols-8'>
+                            <main className='col-span-8 bg-cyan-50 px-9 pb-16'>
                     <h3 className='border-b border-primary mt-12 mb-6 pb-4'>Trending</h3>
                     <div className='grid grid-cols-4 gap-10 mb-12 '>
                         {loading && (
@@ -85,6 +92,9 @@ export default function Index({ source,user }) {
                         <button className='btn hover:scale-125 transition ease-out duration-500'>
                             Xem thêm
                         </button>
+                    </div>
+                            </main>
+                        </div>
                     </div>
                 </Provider>
             </>

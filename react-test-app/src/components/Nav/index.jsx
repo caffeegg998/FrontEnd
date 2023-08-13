@@ -30,7 +30,7 @@ const NavItemsContainer = () => <>
 </>
 const Index = () => {
     return (
-        <nav className='col-span-1 bg-cyan-200 h-full'>
+        <nav className='col-span-2 bg-cyan-200 h-full'>
             <div className='mx-4 justify-between items-center'>
 
                 <h4 className='uppercase font-bold text-primary py-4 border-b border-primary text-right'>DANH MỤC SÁCH</h4>

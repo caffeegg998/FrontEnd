@@ -59,4 +59,7 @@
   .badge2{
     @apply flex items-center bg-cyan-50 rounded-md top-2 left-28 p-1;
   }
+  .bookTable-tr {
+    @apply
+  }
 }

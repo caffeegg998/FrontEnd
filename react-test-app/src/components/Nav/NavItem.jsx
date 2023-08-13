@@ -6,11 +6,11 @@
 
 import PropTypes from 'prop-types';
 
-const NavItem = ({ item }) => {
+const NavItem = ({item,onItemClick}) => {
     const { label, icon, active } = item;
     return (
         <li className={`flex p-2 justify-end items-center cursor-pointer ${active ? ' bg-primary text-white'  : ''}`}
-        onClick={() => item.active=true}>
+        onClick={onItemClick}>
             <h3 className='mr-2'>{label}</h3>
             {icon}
         </li>
@@ -24,5 +24,6 @@ NavItem.propTypes = {
         icon: PropTypes.element.isRequired,
         active: PropTypes.bool,
     }).isRequired,
+    onItemClick: PropTypes.func.isRequired,
 };
 export default NavItem;

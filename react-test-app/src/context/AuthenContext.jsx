@@ -23,13 +23,13 @@ export function AuthenProvider({children}){
 
     let [user,setUser] = useState(null)
     let [loading,setLoading] = useState(true)
-
     useEffect(()=> {
             let u = JSON.parse(localStorage.getItem("user"))
             setUser(u)
             setLoading(false)
 
     },[])
+    console.log(user)
     let checkUser = async (username) => {
         try {
             const response = await axiosInstance.get(`customer/check-exist-username?username=${username}`)

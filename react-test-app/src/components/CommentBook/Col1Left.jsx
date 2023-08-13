@@ -7,7 +7,7 @@ const Col1Left = () => {
                 <section className="bg-white bg-opacity-50 bg-primary rounded-xl p-6">
                     <div className="max-w-2xl mx-auto px-4">
                         <div className="mb-6">
-                            <h3 className="text-lg lg:text-2xl font-bold ">
+                            <h3 className="text-xs lg:text-xl font-bold ">
                                 Bình luận (20)
                             </h3>
                         </div>
@@ -19,7 +19,7 @@ const Col1Left = () => {
                                 <textarea
                                     id="comment"
                                     rows={6}
-                                    className="px-0 w-full h-24 bg-opacity-0 text-2xl text-black border-0 focus:ring-0 focus:outline-none"
+                                    className="px-0 w-full h-24 bg-opacity-0 text-xl text-black border-0 focus:ring-0 focus:outline-none"
                                     placeholder="Viết bình luận......."
                                     required=""
                                     defaultValue={""}
@@ -27,7 +27,7 @@ const Col1Left = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="bg-blue-500 border-2 hover:bg-primary inline-flex items-center py-2.5 px-4 text-2xl font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                                className="bg-blue-500 border-2 hover:bg-primary inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                             >
                                 Đăng bình luận
                             </button>
@@ -102,7 +102,7 @@ const Col1Left = () => {
                                     </ul>
                                 </div>
                             </footer>
-                            <p className="text-black">
+                            <p className="text-black text-sm">
                                 Very straight-to-point article. Really worth time reading. Thank you!
                                 But tools are just the instruments for the UX designers. The knowledge
                                 of the design tools are as important as the creation of the design
@@ -299,7 +299,7 @@ const Col1Left = () => {
                                     </ul>
                                 </div>
                             </footer>
-                            <p className="text-black">
+                            <p className="text-black text-sm">
                                 The article covers the essentials, challenges, myths and stages the UX
                                 designer should consider while creating the design strategy.
                             </p>
@@ -396,7 +396,7 @@ const Col1Left = () => {
                                     </ul>
                                 </div>
                             </footer>
-                            <p className="text-black">
+                            <p className="text-black text-sm">
                                 Thanks for sharing this. I do came from the Backend development and
                                 explored some of the tools to design my Side Projects.
                             </p>
