@@ -32,17 +32,17 @@ const BookCard = ({book,handleDelete, handleStartEditing,source}) => {
                 <IoMdBook/>
                 <p >{format}</p>
             </div>
-            <div className='flex justify-end'>
-                <button
-                    className='flex btn mr-2 text-white border-white hover:text-red-600 hover:border-red-600'
-                    onClick={() => handleDelete(id)}>
-                    <RiDeleteBin6Line/>DELETE
-                </button>
-                <button
-                    className='flex btn mr-2 text-white border-white hover:text-yellow-400 hover:border-yellow-400'
-                    onClick={() => dispath(setEditBook(book))}
-                ><FiEdit />EDIT</button>
-            </div>
+            {/*<div className='flex justify-end'>*/}
+            {/*    <button*/}
+            {/*        className='flex btn mr-2 text-white border-white hover:text-red-600 hover:border-red-600'*/}
+            {/*        onClick={() => handleDelete(id)}>*/}
+            {/*        <RiDeleteBin6Line/>DELETE*/}
+            {/*    </button>*/}
+            {/*    <button*/}
+            {/*        className='flex btn mr-2 text-white border-white hover:text-yellow-400 hover:border-yellow-400'*/}
+            {/*        onClick={() => dispath(setEditBook(book))}*/}
+            {/*    ><FiEdit />EDIT</button>*/}
+            {/*</div>*/}
 
         </div>
     }

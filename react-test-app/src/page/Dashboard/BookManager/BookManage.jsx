@@ -1,14 +1,28 @@
 import AddBook from "../../../components/AddBook/AddBook.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {RiAddCircleLine} from "react-icons/ri";
 import ListTableBook from "../../../components/ListTableBook/ListTableBook.jsx";
+import {BookProvider} from "../../../context/BookContext/BookContext.jsx";
 
-const BookManage = () => {
+const BookManage = ({user}) => {
     const [showAddBook, setShowAddBook] = useState(false);
 
     const toggleAddBook = () => {
         setShowAddBook(!showAddBook);
     };
+    const toggleEditBook = () => {
+        setShowAddBook(true)
+    }
+
+    const cancelHandle = () => {
+        setShowAddBook(false)
+    }
+
+    // useEffect(() => {
+    //     setShowAddBook(false)
+    // },  toggleEditBook);
+
+
 
     return (
         <>
@@ -23,8 +37,10 @@ const BookManage = () => {
                         <RiAddCircleLine className='mr-1'/>
                         Thêm sách
                     </button>
-                    {showAddBook && <AddBook />}
-                    <ListTableBook/>
+                    <BookProvider>
+                        {showAddBook && <AddBook cancelHandle={cancelHandle}/>}
+                        <ListTableBook user={user} toggleEditBook={toggleEditBook}/>
+                    </BookProvider>
                 </div>
             </section>
         </>

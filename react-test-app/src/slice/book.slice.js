@@ -16,7 +16,7 @@ const initialState = {
         msg: "Mặc định",
     },
     editingBook: null,
-    loading: true,
+    loading: false,
     currentRequestId: undefined
 };
 export const getBookListByCreator = createAsyncThunk('book/list-book-by-creator', async (_,thunkApi)=> {
@@ -115,6 +115,8 @@ const bookSlice = createSlice({
             const bookId = action.payload
             // const foundBook = state.data
             state.editingBook =  bookId
+            console.log(bookId)
+
         },
         cancelEditingPost: (state) => {
             state.editingBook = null

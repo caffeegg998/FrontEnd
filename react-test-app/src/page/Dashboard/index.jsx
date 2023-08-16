@@ -65,7 +65,7 @@ const Index = () => {
                         )}
                         {activeIndex === 1 && ( // Hiển thị BookList khi activeIndex là 0
                             <div className='col-span-8'>
-                                <BookManage/>
+                                <BookManage user={user}/>
                             </div>
                         )}
                         {/*<CreateBook />*/}
