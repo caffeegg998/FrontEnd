@@ -1,8 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
 import PropTypes from "prop-types";
-import {deleteBook, getBookList, getBookListByCreator, setEditBook} from "../../slice/book.slice.js";
-import {set} from "react-hook-form";
+import {deleteBook, getBookListByCreator, setEditBook} from "../../slice/book.slice.js";
 import {Fragment, useEffect} from "react";
+import {toast, ToastContainer} from "react-toastify";
 
 
 const ListTableBook = ({user,toggleEditBook}) => {
@@ -19,8 +19,20 @@ const ListTableBook = ({user,toggleEditBook}) => {
 
     console.log(bookList)
     console.log(loading)
-    const handleDelete = (bookId) => {
-        dispath(deleteBook(bookId))
+    const handleDelete = async (bookId) => {
+        toast.promise(
+            (async () => {
+                const response = await dispath(deleteBook(bookId))
+                return response.payload.status === 200
+                    ? "Xóa sách thành công!"
+                    : Promise.reject(new Error("Xóa sách thất bại. Vui lòng thử lại!"));
+            })(),
+            {
+                pending: "Đang xử lý...",
+                success: "Xóa thành công!",
+                error: "Xóa sách thất bại. Vui lòng thử lại!",
+            }
+        )
     }
 
     useEffect(() => {
@@ -148,7 +160,7 @@ const ListTableBook = ({user,toggleEditBook}) => {
                     )}
                     { !loading &&
                         bookList?.map((book) => (
-                        <tr key={book.id} className="cursor-pointer border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-600" onClick={() => handleEdit(book)}>
+                        <tr key={book.id} className="cursor-pointer border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-600" >
                             <td className="p-1">{book.id}</td>
                             <td
                                 scope="row"
@@ -160,7 +172,7 @@ const ListTableBook = ({user,toggleEditBook}) => {
                             <td className="whitespace-nowrap">{book.series}</td>
                             <td className="px-6 py-4 whitespace-nowrap">{book.publisher}</td>
                             <td className="">{book.publicationYear}</td>
-                            <td className="">{book?.category.map((category) => (<a key={category.id} className='mr-1 cursor-pointer hover:underline'>{category.name}|</a>))}</td>
+                            <td className="">{book?.category?.map((category) => (<a key={category.id} className='mr-1 cursor-pointer hover:underline'>{category.name}|</a>))}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <a
                                     href="#"
@@ -171,10 +183,10 @@ const ListTableBook = ({user,toggleEditBook}) => {
                                 </a>
                                 /
                                 <a
-                                    href="#"
                                     className="font-medium text-red-600 hover:underline"
                                     onClick={() => handleDelete(book.id)}
                                 >
+
                                     Xóa
                                 </a>
                             </td>

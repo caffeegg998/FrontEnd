@@ -1,15 +1,20 @@
 import PropTypes from "prop-types";
 import {IoMdBook} from "react-icons/io";
-import {RiDeleteBin6Line} from "react-icons/ri";
-import {FiEdit} from "react-icons/fi";
-import {setEditBook} from "../../slice/book.slice.js";
 import {useDispatch} from "react-redux";
-// import {Book} from "../../types/bookcard.type.js"
-const BookCard = ({book,handleDelete, handleStartEditing,source}) => {
-    const dispath = useDispatch()
+import {useContext} from "react";
+import {BookContext} from "../../context/BookContext/BookContext.jsx";
+import {useNavigate} from "react-router-dom";
+const BookCard = ({book,source}) => {
+    const navigate = useNavigate()
     const { id,title,author,coverUrl,format} = book;
+
+    const handleCardClick = async () => {
+        console.log("Clicked on card with ID:", id);
+        navigate(`/book-detail/${id}`); // Sử dụng navigate để chuyển hướng
+    };
+
     if(source === "Home"){
-        return <div className='card block items-center my-auto'>
+        return <div className='card block items-center my-auto' onClick={handleCardClick}>
                     <img src={`http://localhost:8082/api/book/download/${coverUrl}`} className='w-full'/>
                     <div className='py-2 px-2 text-white '>
                         <h4 className='text-sm'>{title}</h4>

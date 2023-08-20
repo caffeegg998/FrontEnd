@@ -16,7 +16,7 @@ const initialState = {
         msg: "Mặc định",
     },
     editingBook: null,
-    loading: false,
+    loading: true,
     currentRequestId: undefined
 };
 export const getBookListByCreator = createAsyncThunk('book/list-book-by-creator', async (_,thunkApi)=> {

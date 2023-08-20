@@ -5,10 +5,12 @@ import Header from "../../components/Header/index.jsx";
 import BookList from "../../components/BookList/index.jsx";
 import SideBar2 from "../../components/SideBar2/SideBar2.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
+import {BookProvider} from "../../context/BookContext/BookContext.jsx";
 
 const Index = () => {
     return (
         <>
+
             <div className='bg-blue-100'>
                 <Header />
                 <div className='grid grid-cols-12 flex flex-wrap justify-between mx-auto max-w-screen-2xl'>

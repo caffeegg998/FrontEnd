@@ -11,12 +11,14 @@ import RegSuccess from "./page/Register/RegSuccess.jsx";
 import ActiveAccount from "./page/Register/ActiveAccount.jsx";
 import ResendActiveAccount from "./page/Register/ResendActiveAccount.jsx";
 import BookDetail from "./page/BookDetail/BookDetail.jsx";
+import {BookProvider} from "./context/BookContext/BookContext.jsx";
 
 
 const App = () => {
 
 
     return (
+        <BookProvider>
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
@@ -28,11 +30,12 @@ const App = () => {
                 <Route path='forgotResponse' element={<ForgotResponse />}/>
                 <Route path='active-account' element={<ActiveAccount />}/>
                 <Route path='resend-active-account' element={<ResendActiveAccount />}/>
-                <Route path='book-detail' element={<BookDetail />}/>
+                    {/* Các tuyến khác */}
+                    <Route path="/book-detail/:id" element={<BookDetail />} />
+                    {/* ... Các tuyến khác */}
             </Routes>
-
-
         </BrowserRouter>
+        </BookProvider>
 
        )
 }

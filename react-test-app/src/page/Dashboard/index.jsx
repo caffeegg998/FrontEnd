@@ -1,15 +1,15 @@
 
 import Header from "../../components/Header/index.jsx";
 import BookList from "../../components/BookList/index.jsx";
-import CreateBook from "../../components/CreateBook/index.js";
 import {useContext, useEffect, useState} from "react";
 import {AuthenContext} from "../../context/AuthenContext.jsx";
 import {Navigate} from "react-router-dom";
 import SideBar2 from "../../components/SideBar2/SideBar2.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import NavAuth from "../../components/NavAuth/NavAuth.jsx";
-import AddBook from "../../components/AddBook/AddBook.jsx";
 import BookManage from "./BookManager/BookManage.jsx";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Index = () => {
 
@@ -34,6 +34,7 @@ const Index = () => {
     if (loading){
 
         return (
+
             <div role="status">
                 <svg aria-hidden="true"
                      className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -52,6 +53,18 @@ const Index = () => {
     if(user){
         return (
             <>
+                <ToastContainer
+                    position="bottom-left"
+                    autoClose={1000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                />
                 <div className='bg-blue-100'>
                     <Header />
                     <div className='grid grid-cols-12 flex flex-wrap justify-between mx-auto max-w-screen-2xl'>

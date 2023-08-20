@@ -2,10 +2,11 @@ import {Fragment, useContext, useEffect, useRef, useState} from "react";
 import {RiAddCircleLine} from "react-icons/ri";
 import {BookContext} from "../../context/BookContext/BookContext.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {addBook, cancelEditingPost, updateBook} from "../../slice/book.slice.js";
+import {addBook, cancelEditingPost, deleteBook, updateBook} from "../../slice/book.slice.js";
 import {current, unwrapResult} from "@reduxjs/toolkit";
 import {FcCancel} from "react-icons/fc";
 import {GiCancel} from "react-icons/gi";
+import {toast} from "react-toastify";
 
 const AddBook = ({cancelHandle}) => {
     const [category, setCategory] = useState([]);
@@ -16,8 +17,10 @@ const AddBook = ({cancelHandle}) => {
     const categoryNames = editingBook?.category.map(category => category.id);
 
     useEffect(() => {
+        if (categoryNames) {
+            setKeywords(categoryNames)
+        }
 
-        setKeywords(categoryNames)
     }, [editingBook]);
     //
     // console.log(previousId);
@@ -97,8 +100,20 @@ const AddBook = ({cancelHandle}) => {
         if (editingBook) {
             formData.append('id',id);
             try {
-                const res = await dispatch(updateBook(formData))
-                console.log(unwrapResult(res))
+
+                toast.promise(
+                    (async () => {
+                        const response = await dispatch(updateBook(formData))
+                        return response.payload.status === 200
+                            ? "Thêm thành công!"
+                            : Promise.reject(new Error("Cập nhật thất bại. Vui lòng thử lại!"));
+                    })(),
+                    {
+                        pending: "Đang xử lý...",
+                        success: "Cập nhật thành công!",
+                        error: "Cập nhật thất bại. Vui lòng thử lại!",
+                    }
+                )
             }
             catch (error) {
                 // setErrorForm(error.error)
@@ -106,8 +121,19 @@ const AddBook = ({cancelHandle}) => {
         } else {
             try {
                 console.log("Submit")
-                const res = await dispatch(addBook(formData))
-                console.log(unwrapResult(res))
+                toast.promise(
+                    (async () => {
+                        const response = await dispatch(addBook(formData))
+                        return response.payload.status === 200
+                            ? "Thêm thành công!"
+                            : Promise.reject(new Error("Thêm thất bại. Vui lòng thử lại!"));
+                    })(),
+                    {
+                        pending: "Đang xử lý...",
+                        success: "Thêm thành công!",
+                        error: "Thêm thất bại. Vui lòng thử lại!",
+                    }
+                )
             }
             catch (error) {
                 // setErrorForm(error.error)
@@ -415,7 +441,7 @@ const AddBook = ({cancelHandle}) => {
                                 className="text-green-600 inline-flex items-center hover:text-white border border-green-600 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-bold text-sm rounded-lg text-sm py-1 px-2 text-center"
                             >
                                 <RiAddCircleLine className='mr-1'/>
-                                Thêm sách
+                                Cập nhật
                             </button>
                             <button
                                 type="reset"

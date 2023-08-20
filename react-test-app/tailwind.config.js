@@ -26,6 +26,8 @@
 //   ],
 // }
 /** @type {import('tailwindcss').Config} */
+/** @type {import('material-tailwind/react/utils/withMT')} */
+// import "@material-tailwind/react/utils/withMT";
 export default {
   content: [
     "./index.html",
