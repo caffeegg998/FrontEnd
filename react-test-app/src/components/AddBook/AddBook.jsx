@@ -2,9 +2,7 @@ import {Fragment, useContext, useEffect, useRef, useState} from "react";
 import {RiAddCircleLine} from "react-icons/ri";
 import {BookContext} from "../../context/BookContext/BookContext.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {addBook, cancelEditingPost, deleteBook, updateBook} from "../../slice/book.slice.js";
-import {current, unwrapResult} from "@reduxjs/toolkit";
-import {FcCancel} from "react-icons/fc";
+import {addBook, cancelEditingPost, updateBook} from "../../slice/book.slice.js";
 import {GiCancel} from "react-icons/gi";
 import {toast} from "react-toastify";
 

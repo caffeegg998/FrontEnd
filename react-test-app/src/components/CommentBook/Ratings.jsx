@@ -1,12 +1,13 @@
 import {useContext, useEffect, useState} from "react";
 import {BookContext} from "../../context/BookContext/BookContext.jsx";
 import {Rating} from "@material-tailwind/react";
+import {toast} from "react-toastify";
+import {updateBook} from "../../slice/book.slice.js";
 
 const Ratings = ({bookId}) => {
 
     let {getRatingByBookId: getRatingByBookIdCtx} = useContext(BookContext)
     let {RatingBookByUser: RatingBookByUserCtx} = useContext(BookContext)
-    const [rated, setRated] = useState(4);
 
     const [ratingsByBookId, setRatingByBookId] = useState([])
 
@@ -16,17 +17,31 @@ const Ratings = ({bookId}) => {
         total += ratingsByBookId[key];
     }
     const {totalRatings,oneStarPercentage,twoStarPercentage,threeStarPercentage,fourStarPercentage,fiveStarPercentage} = ratingsByBookId
-    console.log(total)
 
-
+    const [rated, setRated] = useState(4);
     const handleRating = (value) => {
-        setRated(value)
-        RatingBookByUser()
+        RatingBookByUser(value)
+
     }
-    let RatingBookByUser = async () => {
+    let RatingBookByUser = async (value) => {
         console.log("rated: " + rated)
-        const response = await RatingBookByUserCtx(bookId,rated)
-        console.log(response)
+
+        toast.promise(
+            (async () => {
+                const response = await RatingBookByUserCtx(bookId,value)
+                if(response.status === 200){
+                    setRated(value)
+                    return response.status === 200
+                        ? "Thêm thành công!"
+                        : Promise.reject(new Error("Bạn chỉ có thể rating khi là user!"));
+                }
+            })(),
+            {
+                pending: "Đang xử lý...",
+                success: "Rating thành công! Cảm ơn bạn đã đánh giá",
+                error: "Bạn phải là thành viên để đánh giá!",
+            }
+        )
     }
     console.log(rated)
     useEffect(() => {
@@ -37,7 +52,7 @@ const Ratings = ({bookId}) => {
             }
         };
         getRatingByBookId()
-    }, []);
+    }, [rated]);
 
 
 

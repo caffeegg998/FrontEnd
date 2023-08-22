@@ -83,6 +83,7 @@ export const updateBook = createAsyncThunk(
     'book/updateBook',
     async (formData, thunkAPI) => {
         try {
+            console.log(...formData)
             const response = await axiosInstance.put(`book/member/update-book`, formData, {
                 signal: thunkAPI.signal,
                 headers: {

@@ -50,7 +50,7 @@ axiosInstance.interceptors.request.use(function (config) {
     return new Promise(resolve => {  //Mô phỏng độ trễ 2 dây
         setTimeout(() => {
             resolve(config);
-        }, 2000);
+        }, 0);
     });
 }, function (error) {
     // Do something with request error

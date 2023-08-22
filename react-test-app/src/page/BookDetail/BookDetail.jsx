@@ -75,6 +75,11 @@ const BookDetail = () => {
     return (
 
         <>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={1000}
+                hideProgressBar>
+            </ToastContainer>
            <Header />
 
                <div className='grid grid-cols-12 flex flex-wrap justify-between mx-auto max-w-screen-2xl'>
@@ -99,7 +104,7 @@ const BookDetail = () => {
                                        <ItemBookDetail book={bookDetail}/>
                                        <Ratings bookId={id}/>
                                        <Comment/>
-                                       <ToastContainer></ToastContainer>
+
                                    </main>
                                )}
                        </div>
